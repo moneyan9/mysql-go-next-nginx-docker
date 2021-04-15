@@ -1,3 +1,4 @@
+/*
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(32) NOT NULL,
@@ -6,3 +7,4 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (id, name, email) VALUES (1, 'hoge','hoge@example.com');
+*/

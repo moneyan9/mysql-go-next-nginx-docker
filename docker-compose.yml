@@ -1,7 +1,9 @@
-version: '3'
+version: '3.8'
 services:
   db:
-    image: mysql:8
+    build: 
+      context: .
+      dockerfile: ./docker/db/Dockerfile
     container_name: db
     ports:
       - 33060:3306
@@ -16,3 +18,15 @@ services:
       - ./db/conf.d:/etc/mysql/conf.d
       - ./db/store:/var/lib/mysql
       - ./db/logs:/var/log/mysql
+  server:
+    build: 
+      context: .
+      dockerfile: ./docker/server/Dockerfile
+    container_name: server
+    ports:
+      - 8000:8000
+    tty: true
+    volumes:
+      - ./server:/go/src/github.com/moneyan/mysql_go_nuxt_nginx_docker
+    depends_on:
+      - 'db'
