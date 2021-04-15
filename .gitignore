@@ -1,2 +1,4 @@
 /db/store
 /db/logs
+/server/tmp
+/tmp
