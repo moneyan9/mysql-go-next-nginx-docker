@@ -1,8 +1,13 @@
-FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.16
+FROM golang:1.16.3-stretch
 
-ENV ROOT=/go/src/github.com/moneyan/mysql_go_nuxt_nginx_docker/server
+ENV ROOT=/go/src/app
 WORKDIR ${ROOT}
 
 COPY ./server/go.mod ./
 COPY ./server/go.sum ./
 RUN go mod download
+
+COPY ./server .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /go/bin/app
+
+CMD ["/go/bin/app"]

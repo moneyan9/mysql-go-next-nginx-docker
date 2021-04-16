@@ -27,6 +27,6 @@ services:
       - 8000:8000
     tty: true
     volumes:
-      - ./server:/go/src/github.com/moneyan/mysql_go_nuxt_nginx_docker/server
+      - ./server:/go/src/app
     depends_on:
       - 'db'
