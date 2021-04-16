@@ -12,7 +12,7 @@ type SqlHandler struct {
 }
 
 func NewSqlHandler() database.SqlHandler {
-	dsn := "user:password@tcp(127.0.0.1:33060)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "user:password@tcp(host.docker.internal:33060)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
 	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err.Error)
