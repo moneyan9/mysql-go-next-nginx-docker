@@ -6,5 +6,3 @@ WORKDIR ${ROOT}
 COPY ./server/go.mod ./
 COPY ./server/go.sum ./
 RUN go mod download
-
-EXPOSE 8000
