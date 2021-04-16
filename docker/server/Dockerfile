@@ -1,8 +1,6 @@
-FROM golang:1.16.3-alpine as dev
+FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.16
 
-RUN apk update && apk add git
-
-ENV ROOT=/go/src/github.com/moneyan/mysql_go_nuxt_nginx_docker
+ENV ROOT=/go/src/github.com/moneyan/mysql_go_nuxt_nginx_docker/server
 WORKDIR ${ROOT}
 
 COPY ./server/go.mod ./
