@@ -1,18 +1,15 @@
 FROM node:15.14.0
+RUN apt update
 
 ENV ROOT=/src/client
 WORKDIR ${ROOT}
-
-RUN apt update && \
- apt add git && \
- npm install -g npm && \
- npm install -g yarn
 
 COPY ./client/package.json ./
 COPY ./client/yarn.lock ./
 RUN yarn install
 
 COPY ./client .
-RUN yarn run build
+RUN yarn global add nuxt
+RUN yarn build
 
-EXPOSE 3000
+CMD ["yarn", "start"]

@@ -1,0 +1,12 @@
+{
+	"name": "client",
+	"dockerComposeFile": [
+		"../../docker-compose.yml"
+	],
+	"service": "client",
+	"workspaceFolder": "/src/client",
+	"settings": {
+		"terminal.integrated.shell.linux": null
+	},
+	"extensions": []
+}
