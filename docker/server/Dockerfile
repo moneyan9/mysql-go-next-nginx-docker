@@ -1,6 +1,6 @@
 FROM golang:1.16.3-stretch
 
-ENV ROOT=/go/src/app
+ENV ROOT=/go/src/server
 WORKDIR ${ROOT}
 
 COPY ./server/go.mod ./

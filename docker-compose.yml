@@ -27,6 +27,18 @@ services:
       - 8000:8000
     tty: true
     volumes:
-      - ./server:/go/src/app
+      - ./server:/go/src/server
+    depends_on:
+      - 'db'
+  client:
+    build: 
+      context: .
+      dockerfile: ./docker/client/Dockerfile
+    container_name: client
+    ports:
+      - 3000:3000
+    tty: true
+    volumes:
+      - ./client:/src/client
     depends_on:
       - 'db'
