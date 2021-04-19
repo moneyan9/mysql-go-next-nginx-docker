@@ -2,3 +2,5 @@
 /db/logs
 /server/tmp
 /tmp
+
+.DS_Store
