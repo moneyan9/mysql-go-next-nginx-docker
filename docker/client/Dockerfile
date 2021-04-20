@@ -9,7 +9,6 @@ COPY ./client/yarn.lock ./
 RUN yarn install
 
 COPY ./client .
-RUN yarn global add nuxt
 RUN yarn build
 
 CMD ["yarn", "start"]
