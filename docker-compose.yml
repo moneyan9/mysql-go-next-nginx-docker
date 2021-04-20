@@ -18,8 +18,6 @@ services:
       - ./db/conf.d:/etc/mysql/conf.d
       - ./db/store:/var/lib/mysql
       - ./db/logs:/var/log/mysql
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
   server:
     build: 
       context: .
@@ -30,8 +28,6 @@ services:
     tty: true
     #volumes:
     #  - ./server:/go/src/server
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     depends_on:
       - 'db'
   client:
