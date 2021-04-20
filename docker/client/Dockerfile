@@ -1,5 +1,5 @@
 FROM node:15.14.0
-RUN apt update
+RUN apt update && apt upgrade -y
 
 ENV ROOT=/src/client
 WORKDIR ${ROOT}

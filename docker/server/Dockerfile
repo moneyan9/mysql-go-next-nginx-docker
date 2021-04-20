@@ -1,5 +1,5 @@
 FROM golang:1.16.3-stretch
-RUN apt update
+RUN apt update && apt upgrade -y
 
 ENV ROOT=/go/src/server
 WORKDIR ${ROOT}
