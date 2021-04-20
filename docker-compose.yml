@@ -4,6 +4,8 @@ services:
     build: 
       context: .
       dockerfile: ./docker/db/Dockerfile
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
     container_name: db
     ports:
       - 3060:3306
@@ -22,6 +24,8 @@ services:
     build: 
       context: .
       dockerfile: ./docker/server/Dockerfile
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
     container_name: server
     ports:
       - 8000:8000
@@ -34,6 +38,8 @@ services:
     build: 
       context: .
       dockerfile: ./docker/client/Dockerfile
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
     container_name: client
     ports:
       - 3000:3000
@@ -46,6 +52,8 @@ services:
     build: 
       context: .
       dockerfile: ./docker/nginx/Dockerfile
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
     container_name: nginx
     ports:
       - 80:80
@@ -54,3 +62,9 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - 'client'
+  myservice:
+    build:
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
+extra_hosts:
+  - "host.docker.internal:host-gateway"
