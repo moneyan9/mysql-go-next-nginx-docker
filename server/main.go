@@ -11,7 +11,7 @@ import (
 var (
 	db  *gorm.DB
 	err error
-	dsn = "user:password@tcp(host.docker.internal:33060)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn = "user:password@tcp(db:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
 )
 
 func main() {
