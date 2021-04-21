@@ -6,7 +6,8 @@ services:
       dockerfile: ./docker/db/Dockerfile
     container_name: db
     ports:
-      - 3060:3306
+      - 33060:3306
+    tty: true
     environment:
       - MYSQL_DATABASE=mydb
       - MYSQL_USER=user
@@ -26,6 +27,10 @@ services:
     ports:
       - 8000:8000
     tty: true
+    environment: 
+      WAIT_HOSTS: db:33060
+      WAIT_HOSTS_TIMEOUT: 180
+      WAIT_SLEEP_INTERVAL: 5
     #volumes:
     #  - ./server:/go/src/server
     depends_on:
