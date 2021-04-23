@@ -1,8 +1,15 @@
+import { Button } from '@material-ui/core'
 import type { NextPage } from 'next'
-import styles from 'styles/Home.module.css'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
-  return <div className={styles.container}>{/* ... */}</div>
+  return (
+    <>
+      <Link href="/users">
+        <Button variant="outlined">MOVE TO USERS PAGE</Button>
+      </Link>
+    </>
+  )
 }
 
 // eslint-disable-next-line import/no-default-export
