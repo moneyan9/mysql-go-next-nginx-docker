@@ -3,18 +3,21 @@ import axios from 'axios'
 import type { User } from 'models/user'
 import Router from 'next/router'
 import { useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import formStyles from '../../styles/form.module.scss'
 
 const New = () => {
-  const methods = useForm()
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = methods
+  } = useForm()
   const [errorMessage, setErrorMessage] = useState('')
+
+  const { ref, ...inputProps } = register('name', {
+    required: 'Name is required',
+  })
 
   const addUser = async (user: User) => {
     try {
@@ -29,24 +32,24 @@ const New = () => {
     <>
       <h1>Create User</h1>
 
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(addUser)} className={formStyles.form}>
-          <div>
-            <TextField type="text" label="Name" {...register('name', { required: 'Name is required' })} />
-            {errors.name && (
-              <span role="alert" className={formStyles.error}>
-                {errors.name.message}
-              </span>
-            )}
-          </div>
+      <form onSubmit={handleSubmit(addUser)} className={formStyles.form}>
+        <div>
+          <TextField
+            type="text"
+            label="Name"
+            error={!!errors.name}
+            helperText={errors?.name?.message}
+            inputRef={ref}
+            {...inputProps}
+          />
+        </div>
 
-          <div className={formStyles.submit}>
-            <Button type="submit" variant="outlined">
-              Create
-            </Button>
-          </div>
-        </form>
-      </FormProvider>
+        <div className={formStyles.submit}>
+          <Button type="submit" variant="outlined">
+            Create
+          </Button>
+        </div>
+      </form>
 
       {errorMessage && (
         <p role="alert" className={formStyles.errorMessage}>
