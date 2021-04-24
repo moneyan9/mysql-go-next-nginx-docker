@@ -29,7 +29,7 @@ const Index = () => {
 
   const deleteUser = async (id: number) => {
     try {
-      await axios.delete('http://localhost/api/users/' + id)
+      await axios.delete(`http://localhost/api/users/${id}`)
       mutate()
     } catch (error) {
       setErrorMessage(error.message)
@@ -65,9 +65,11 @@ const Index = () => {
                   </TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>
-                    <IconButton>
-                      <Edit />
-                    </IconButton>
+                    <Link href="/users/[id]" as={`/users/${user.id}`}>
+                      <IconButton>
+                        <Edit />
+                      </IconButton>
+                    </Link>
                   </TableCell>
                   <TableCell>
                     <IconButton>

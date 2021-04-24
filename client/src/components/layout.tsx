@@ -19,8 +19,8 @@ const Layout = ({ children }: Props) => {
         `}</style>
         <style jsx>{`
           .container {
-            max-width: 60rem;
-            margin: 0rem auto;
+            max-width: 60vw;
+            margin: 4vh auto;
           }
         `}</style>
       </div>
