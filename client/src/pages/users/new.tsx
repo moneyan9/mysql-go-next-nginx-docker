@@ -1,4 +1,6 @@
 import { Button, TextField } from '@material-ui/core'
+import axios from 'axios'
+import type { User } from 'models/user'
 import Router from 'next/router'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -7,38 +9,32 @@ import formStyles from '../../styles/form.module.scss'
 
 const New = () => {
   const methods = useForm()
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = methods
+
   const [errorMessage, setErrorMessage] = useState('')
 
-  const onSubmit = handleSubmit(async ({ name }) => {
-    if (errorMessage) setErrorMessage('')
-
-    console.info(name)
-
+  const addUser = async (user: User) => {
     try {
-      Router.push('/crud-example')
+      await axios.post('http://localhost/api/users', user)
+      Router.push('/users')
     } catch (error) {
-      console.error(error)
       setErrorMessage(error.message)
     }
-  })
-
-  const { ref: inputRef } = register('name', {
-    required: 'Name is required',
-  })
+  }
 
   return (
     <>
-      <h1>Create New User</h1>
+      <h1>Create User</h1>
 
       <FormProvider {...methods}>
-        <form onSubmit={onSubmit} className={formStyles.form}>
+        <form onSubmit={handleSubmit(addUser)} className={formStyles.form}>
           <div>
-            <TextField type="text" name="name" label="Name" placeholder="Input Your Name" inputRef={inputRef} />
+            <TextField type="text" label="Name" {...register('name', { required: 'Name is required' })} />
             {errors.name && (
               <span role="alert" className={formStyles.error}>
                 {errors.name.message}
@@ -47,7 +43,7 @@ const New = () => {
           </div>
 
           <div className={formStyles.submit}>
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="outlined">
               Create
             </Button>
           </div>

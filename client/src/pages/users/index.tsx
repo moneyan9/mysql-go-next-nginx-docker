@@ -11,16 +11,30 @@ import {
 } from '@material-ui/core'
 import { Delete, Edit, PersonAdd } from '@material-ui/icons'
 import axios from 'axios'
+import type { User } from 'models/user'
 import Link from 'next/link'
+import { useState } from 'react'
 import useSWR from 'swr'
 
+import formStyles from '../../styles/form.module.scss'
+
 const Index = () => {
-  const { data } = useSWR('http://localhost/api/users', (url: string) => {
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const { data, mutate } = useSWR('http://localhost/api/users', (url: string) => {
     return axios(url).then((res) => {
-      return res.data
+      return res.data as User[]
     })
   })
 
+  const deleteUser = async (id: number) => {
+    try {
+      await axios.delete('http://localhost/api/users/' + id)
+      mutate()
+    } catch (error) {
+      setErrorMessage(error.message)
+    }
+  }
   return (
     <>
       <h1>User List</h1>
@@ -43,13 +57,13 @@ const Index = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((row: any) => {
+            {data?.map((user) => {
               return (
-                <TableRow key={data.id}>
+                <TableRow key={user.id}>
                   <TableCell component="th" scope="row">
-                    {row.id}
+                    {user.id}
                   </TableCell>
-                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{user.name}</TableCell>
                   <TableCell>
                     <IconButton>
                       <Edit />
@@ -57,7 +71,11 @@ const Index = () => {
                   </TableCell>
                   <TableCell>
                     <IconButton>
-                      <Delete />
+                      <Delete
+                        onClick={() => {
+                          return deleteUser(user.id)
+                        }}
+                      />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -66,6 +84,12 @@ const Index = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {errorMessage && (
+        <p role="alert" className={formStyles.errorMessage}>
+          {errorMessage}
+        </p>
+      )}
     </>
   )
 }
