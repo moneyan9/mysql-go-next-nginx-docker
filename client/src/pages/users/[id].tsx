@@ -33,6 +33,7 @@ const Edit = () => {
 
   const updateUser = async (user: User) => {
     try {
+      user.id = Number.parseInt(id as string)
       await axios.put(`http://localhost/api/users/${id}`, user)
       Router.push('/users')
     } catch (error) {
@@ -42,7 +43,7 @@ const Edit = () => {
 
   useEffect(() => {
     reset(data)
-  })
+  }, [reset, data])
 
   useEffect
   return (
