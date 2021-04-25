@@ -9,13 +9,13 @@ import formStyles from '../../styles/form.module.scss'
 
 const New = () => {
   const {
-    handleSubmit,
     register,
     formState: { errors },
+    handleSubmit,
   } = useForm()
   const [errorMessage, setErrorMessage] = useState('')
 
-  const { ref, ...inputProps } = register('name', {
+  const { ref: nameRef, ...nameProps } = register('name', {
     required: 'Name is required',
   })
 
@@ -37,10 +37,10 @@ const New = () => {
           <TextField
             type="text"
             label="Name"
+            inputRef={nameRef}
+            {...nameProps}
             error={!!errors.name}
             helperText={errors?.name?.message}
-            inputRef={ref}
-            {...inputProps}
           />
         </div>
 
