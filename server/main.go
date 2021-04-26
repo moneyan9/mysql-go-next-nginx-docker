@@ -1,27 +1,20 @@
 package main
 
 import (
-	"server/domain"
 	"server/infrastructure"
 
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-)
-
-var (
-	db  *gorm.DB
-	err error
-	dsn = "user:password@tcp(db:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
-	dbinit()
-	infrastructure.Init()
-}
 
-func dbinit() {
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-	}
-	db.Migrator().CreateTable(domain.User{})
+	e := echo.New()
+	e.Use(middleware.CORS())
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Logger.Fatal(e.Start(":8000"))
+
+	infrastructure.InitializeDatabase()
+	infrastructure.InitializeRoots(e)
 }

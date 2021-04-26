@@ -1,4 +1,4 @@
-package controllers
+package helpers
 
 type Error struct {
 	Message string

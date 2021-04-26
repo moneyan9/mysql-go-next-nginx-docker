@@ -1,23 +1,25 @@
 package controllers
 
 import (
-	"server/domain"
-	"server/interfaces/database"
-	"server/usecase"
+	"server/helpers"
+	"server/infrastructure/entities"
+	"server/infrastructure/interactors"
+	"server/infrastructure/repositories"
+	"server/services"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
 type UserController struct {
-	Interactor usecase.UserInteractor
+	Service services.UserService
 }
 
-func NewUserController(sqlHandler database.SqlHandler) *UserController {
+func NewUserController(sqlHandler interactors.SqlInteractor) *UserController {
 	return &UserController{
-		Interactor: usecase.UserInteractor{
-			UserRepository: &database.UserRepository{
-				SqlHandler: sqlHandler,
+		Service: services.UserService{
+			UserInteractor: &repositories.UserRepository{
+				SqlInteractor: sqlHandler,
 			},
 		},
 	}
@@ -25,9 +27,9 @@ func NewUserController(sqlHandler database.SqlHandler) *UserController {
 
 func (controller *UserController) Show(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	user, err := controller.Interactor.UserById(id)
+	user, err := controller.Service.UserById(id)
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, helpers.NewError(err))
 		return
 	}
 	c.JSON(200, user)
@@ -35,9 +37,9 @@ func (controller *UserController) Show(c echo.Context) (err error) {
 }
 
 func (controller *UserController) Index(c echo.Context) (err error) {
-	users, err := controller.Interactor.Users()
+	users, err := controller.Service.Users()
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, helpers.NewError(err))
 		return
 	}
 	c.JSON(200, users)
@@ -45,11 +47,11 @@ func (controller *UserController) Index(c echo.Context) (err error) {
 }
 
 func (controller *UserController) Create(c echo.Context) (err error) {
-	u := domain.User{}
+	u := entities.User{}
 	c.Bind(&u)
-	user, err := controller.Interactor.Add(u)
+	user, err := controller.Service.Add(u)
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, helpers.NewError(err))
 		return
 	}
 	c.JSON(201, user)
@@ -57,11 +59,11 @@ func (controller *UserController) Create(c echo.Context) (err error) {
 }
 
 func (controller *UserController) Save(c echo.Context) (err error) {
-	u := domain.User{}
+	u := entities.User{}
 	c.Bind(&u)
-	user, err := controller.Interactor.Update(u)
+	user, err := controller.Service.Update(u)
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, helpers.NewError(err))
 		return
 	}
 	c.JSON(201, user)
@@ -70,12 +72,12 @@ func (controller *UserController) Save(c echo.Context) (err error) {
 
 func (controller *UserController) Delete(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	user := domain.User{
+	user := entities.User{
 		ID: id,
 	}
-	err = controller.Interactor.DeleteById(user)
+	err = controller.Service.DeleteById(user)
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, helpers.NewError(err))
 		return
 	}
 	c.JSON(200, user)

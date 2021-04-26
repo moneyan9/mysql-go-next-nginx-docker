@@ -4,15 +4,15 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	"server/interfaces/database"
+	"server/infrastructure/interactors"
 )
 
 type SqlHandler struct {
 	Conn *gorm.DB
 }
 
-func NewSqlHandler() database.SqlHandler {
-	dsn := "user:password@tcp(db:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
+func NewSqlHandler() interactors.SqlInteractor {
+	dsn := "user:password@tcp(localhost:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
 	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err.Error)
