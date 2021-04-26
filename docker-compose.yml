@@ -7,6 +7,7 @@ services:
     container_name: db
     ports:
       - 3306:3306
+    restart: always
     environment:
       - MYSQL_DATABASE=mydb
       - MYSQL_USER=user
@@ -25,6 +26,7 @@ services:
     container_name: server
     ports:
       - 8000:8000
+    restart: always
     environment: 
       WAIT_HOSTS: db:3306
       WAIT_HOSTS_TIMEOUT: 180
@@ -38,6 +40,7 @@ services:
     container_name: client
     ports:
       - 3000:3000
+    restart: always
     #volumes:
     #  - ./client:/src/client
   nginx:
@@ -47,5 +50,6 @@ services:
     container_name: nginx
     ports:
       - 80:80
+    restart: always
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
