@@ -1,14 +1,14 @@
-package infrastructure
+package controllers
 
 import (
-	"server/controllers"
+	"server/infrastructure"
 
 	"github.com/labstack/echo/v4"
 )
 
-func InitializeRoots(e *echo.Echo) {
+func Initialize(e *echo.Echo) {
 
-	userController := controllers.NewUserController(NewSqlHandler())
+	userController := NewUserController(infrastructure.NewSqlHandler())
 	e.GET("/api/users", func(c echo.Context) error { return userController.Index(c) })
 	e.GET("/api/users/:id", func(c echo.Context) error { return userController.Show(c) })
 	e.POST("/api/users", func(c echo.Context) error { return userController.Create(c) })

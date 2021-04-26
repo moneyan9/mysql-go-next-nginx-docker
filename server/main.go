@@ -1,6 +1,7 @@
 package main
 
 import (
+	"server/controllers"
 	"server/infrastructure"
 
 	"github.com/labstack/echo/v4"
@@ -14,8 +15,8 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	infrastructure.InitializeDatabase()
-	infrastructure.InitializeRoots(e)
+	infrastructure.Initialize()
+	controllers.Initialize(e)
 
 	e.Logger.Fatal(e.Start(":8000"))
 
