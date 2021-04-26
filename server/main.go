@@ -13,8 +13,10 @@ func main() {
 	e.Use(middleware.CORS())
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	e.Logger.Fatal(e.Start(":8000"))
 
 	infrastructure.InitializeDatabase()
 	infrastructure.InitializeRoots(e)
+
+	e.Logger.Fatal(e.Start(":8000"))
+
 }
