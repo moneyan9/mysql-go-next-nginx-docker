@@ -1,17 +1,17 @@
 package infrastructure
 
 import (
+	"server/infrastructure/interfaces"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-
-	"server/infrastructure/interactors"
 )
 
 type SqlHandler struct {
 	Conn *gorm.DB
 }
 
-func NewSqlHandler() interactors.SqlInteractor {
+func NewSqlHandler() interfaces.ISqlHandler {
 	dsn := "user:password@tcp(db:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
 	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

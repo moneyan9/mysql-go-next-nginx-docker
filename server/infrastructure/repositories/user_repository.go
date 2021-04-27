@@ -2,11 +2,11 @@ package repositories
 
 import (
 	"server/infrastructure/entities"
-	"server/infrastructure/interactors"
+	"server/infrastructure/interfaces"
 )
 
 type UserRepository struct {
-	interactors.SqlInteractor
+	interfaces.ISqlHandler
 }
 
 func (repo *UserRepository) FindById(id int) (user entities.User, err error) {

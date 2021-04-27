@@ -1,8 +1,8 @@
-package interactors
+package interfaces
 
 import "gorm.io/gorm"
 
-type SqlInteractor interface {
+type ISqlHandler interface {
 	Exec(string, ...interface{}) *gorm.DB
 	Find(interface{}, ...interface{}) *gorm.DB
 	First(interface{}, ...interface{}) *gorm.DB

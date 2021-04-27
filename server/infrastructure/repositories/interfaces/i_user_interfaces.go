@@ -1,8 +1,8 @@
-package interactors
+package interfaces
 
 import "server/infrastructure/entities"
 
-type UserInteractor interface {
+type IUserRepository interface {
 	FindById(id int) (entities.User, error)
 	FindAll() (entities.Users, error)
 	Store(entities.User) (entities.User, error)
