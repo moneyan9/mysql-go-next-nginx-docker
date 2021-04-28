@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"server/infrastructure"
 	"server/infrastructure/entities"
-	"server/infrastructure/interfaces"
 	"server/infrastructure/repositories"
 	"server/services"
 	"strconv"
@@ -10,23 +10,29 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type UserController struct {
-	Service services.UserService
+type UserController interface {
+	Show(echo.Context) error
+	Index(echo.Context) error
+	Create(echo.Context) error
+	Save(echo.Context) error
+	Delete(echo.Context) error
 }
 
-func NewUserController(sqlHandler interfaces.ISqlHandler) *UserController {
-	return &UserController{
-		Service: services.UserService{
-			IUserRepository: &repositories.UserRepository{
-				ISqlHandler: sqlHandler,
-			},
-		},
+type userController struct {
+	userService services.UserService
+}
+
+func NewUserController(sqlHandler infrastructure.SqlHandler) UserController {
+	return &userController{
+		userService: services.NewUserService(
+			repositories.NewUserRepository(sqlHandler),
+		),
 	}
 }
 
-func (controller *UserController) Show(c echo.Context) (err error) {
+func (controller *userController) Show(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	user, err := controller.Service.UserById(id)
+	user, err := controller.userService.UserById(id)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
@@ -35,8 +41,8 @@ func (controller *UserController) Show(c echo.Context) (err error) {
 	return
 }
 
-func (controller *UserController) Index(c echo.Context) (err error) {
-	users, err := controller.Service.Users()
+func (controller *userController) Index(c echo.Context) (err error) {
+	users, err := controller.userService.Users()
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
@@ -45,10 +51,10 @@ func (controller *UserController) Index(c echo.Context) (err error) {
 	return
 }
 
-func (controller *UserController) Create(c echo.Context) (err error) {
+func (controller *userController) Create(c echo.Context) (err error) {
 	u := entities.User{}
 	c.Bind(&u)
-	user, err := controller.Service.Add(u)
+	user, err := controller.userService.Add(u)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
@@ -57,10 +63,10 @@ func (controller *UserController) Create(c echo.Context) (err error) {
 	return
 }
 
-func (controller *UserController) Save(c echo.Context) (err error) {
+func (controller *userController) Save(c echo.Context) (err error) {
 	u := entities.User{}
 	c.Bind(&u)
-	user, err := controller.Service.Update(u)
+	user, err := controller.userService.Update(u)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
@@ -69,12 +75,12 @@ func (controller *UserController) Save(c echo.Context) (err error) {
 	return
 }
 
-func (controller *UserController) Delete(c echo.Context) (err error) {
+func (controller *userController) Delete(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	user := entities.User{
 		ID: id,
 	}
-	err = controller.Service.DeleteById(user)
+	err = controller.userService.DeleteById(user)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return

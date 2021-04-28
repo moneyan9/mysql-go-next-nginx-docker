@@ -1,4 +1,4 @@
-package roots
+package main
 
 import (
 	"server/controllers"
@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func AddUsersRoots(e *echo.Echo) {
+func InitializeRoots(e *echo.Echo) {
 
 	userController := controllers.NewUserController(infrastructure.NewSqlHandler())
 	e.GET("/api/users", func(c echo.Context) error { return userController.Index(c) })

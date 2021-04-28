@@ -1,46 +1,58 @@
 package repositories
 
 import (
+	"server/infrastructure"
 	"server/infrastructure/entities"
-	"server/infrastructure/interfaces"
 )
 
-type UserRepository struct {
-	interfaces.ISqlHandler
+type UserRepository interface {
+	FindById(id int) (entities.User, error)
+	FindAll() (entities.Users, error)
+	Store(entities.User) (entities.User, error)
+	Update(entities.User) (entities.User, error)
+	DeleteById(entities.User) error
 }
 
-func (repo *UserRepository) FindById(id int) (user entities.User, err error) {
-	if err = repo.Find(&user, id).Error; err != nil {
+type userRepository struct {
+	sqlHandler infrastructure.SqlHandler
+}
+
+func NewUserRepository(sqlHandler infrastructure.SqlHandler) UserRepository {
+	return &userRepository{sqlHandler: sqlHandler}
+}
+
+func (repo *userRepository) FindById(id int) (user entities.User, err error) {
+	if err = repo.sqlHandler.Find(&user, id).Error; err != nil {
 		return
 	}
 	return
 }
 
-func (repo *UserRepository) FindAll() (users entities.Users, err error) {
-	if err = repo.Find(&users).Error; err != nil {
+func (repo *userRepository) FindAll() (users entities.Users, err error) {
+	if err = repo.sqlHandler.Find(&users).Error; err != nil {
 		return
 	}
 	return
 }
 
-func (repo *UserRepository) Store(u entities.User) (user entities.User, err error) {
-	if err = repo.Create(&u).Error; err != nil {
+func (repo *userRepository) Store(u entities.User) (user entities.User, err error) {
+	if err = repo.sqlHandler.Create(&u).Error; err != nil {
 		return
 	}
 	user = u
 	return
 }
 
-func (repo *UserRepository) Update(u entities.User) (user entities.User, err error) {
-	if err = repo.Save(&u).Error; err != nil {
+func (repo *userRepository) Update(u entities.User) (user entities.User, err error) {
+	if err = repo.sqlHandler.Save(&u).Error; err != nil {
 		return
 	}
 	user = u
 	return
 }
 
-func (repo *UserRepository) DeleteById(user entities.User) (err error) {
-	if err = repo.Delete(&user).Error; err != nil {
+func (repo *userRepository) DeleteById(user entities.User) (err error) {
+	if err = repo.sqlHandler.Delete(&user).Error; err != nil {
 		return
 	}
 	return
