@@ -1,4 +1,4 @@
-package infrastructure
+package helpers
 
 import (
 	"gorm.io/driver/mysql"

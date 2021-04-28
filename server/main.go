@@ -1,7 +1,7 @@
 package main
 
 import (
-	"server/infrastructure"
+	"server/configs"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -14,8 +14,8 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	infrastructure.InitializeDatabase()
-	InitializeRoots(e)
+	configs.InitializeDatabase()
+	configs.InitializeRoots(e)
 
 	e.Logger.Fatal(e.Start(":8000"))
 

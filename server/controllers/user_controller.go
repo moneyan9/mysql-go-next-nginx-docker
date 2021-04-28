@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"server/infrastructure"
-	"server/infrastructure/entities"
-	"server/infrastructure/repositories"
+	"server/entities"
+	"server/helpers"
+	"server/repositories"
 	"server/services"
 	"strconv"
 
@@ -22,7 +22,7 @@ type userController struct {
 	userService services.UserService
 }
 
-func NewUserController(sqlHandler infrastructure.SqlHandler) UserController {
+func NewUserController(sqlHandler helpers.SqlHandler) UserController {
 	return &userController{
 		userService: services.NewUserService(
 			repositories.NewUserRepository(sqlHandler),

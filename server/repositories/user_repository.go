@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"server/infrastructure"
-	"server/infrastructure/entities"
+	"server/entities"
+	"server/helpers"
 )
 
 type UserRepository interface {
@@ -14,10 +14,10 @@ type UserRepository interface {
 }
 
 type userRepository struct {
-	sqlHandler infrastructure.SqlHandler
+	sqlHandler helpers.SqlHandler
 }
 
-func NewUserRepository(sqlHandler infrastructure.SqlHandler) UserRepository {
+func NewUserRepository(sqlHandler helpers.SqlHandler) UserRepository {
 	return &userRepository{sqlHandler: sqlHandler}
 }
 

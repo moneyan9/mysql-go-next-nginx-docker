@@ -1,7 +1,7 @@
-package infrastructure
+package configs
 
 import (
-	"server/infrastructure/entities"
+	"server/entities"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

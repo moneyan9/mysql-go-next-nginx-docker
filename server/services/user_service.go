@@ -1,8 +1,8 @@
 package services
 
 import (
-	"server/infrastructure/entities"
-	"server/infrastructure/repositories"
+	"server/entities"
+	"server/repositories"
 )
 
 type UserService interface {
