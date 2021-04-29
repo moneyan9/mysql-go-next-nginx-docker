@@ -6,11 +6,11 @@ import (
 )
 
 type UserService interface {
-	UserById(id int) (entities.User, error)
-	Users() (entities.Users, error)
-	Add(entities.User) (entities.User, error)
+	GetById(id int) (entities.User, error)
+	GetAll() (entities.Users, error)
+	Create(entities.User) (entities.User, error)
 	Update(entities.User) (entities.User, error)
-	DeleteById(entities.User) error
+	Delete(entities.User) error
 }
 
 type userService struct {
@@ -21,18 +21,18 @@ func NewUserService(userRepository repositories.UserRepository) UserService {
 	return &userService{userRepository: userRepository}
 }
 
-func (service *userService) UserById(id int) (user entities.User, err error) {
-	user, err = service.userRepository.FindById(id)
+func (service *userService) GetById(id int) (user entities.User, err error) {
+	user, err = service.userRepository.GetById(id)
 	return
 }
 
-func (service *userService) Users() (users entities.Users, err error) {
-	users, err = service.userRepository.FindAll()
+func (service *userService) GetAll() (users entities.Users, err error) {
+	users, err = service.userRepository.GetAll()
 	return
 }
 
-func (service *userService) Add(u entities.User) (user entities.User, err error) {
-	user, err = service.userRepository.Store(u)
+func (service *userService) Create(u entities.User) (user entities.User, err error) {
+	user, err = service.userRepository.Create(u)
 	return
 }
 
@@ -41,7 +41,7 @@ func (service *userService) Update(u entities.User) (user entities.User, err err
 	return
 }
 
-func (service *userService) DeleteById(u entities.User) (err error) {
-	err = service.userRepository.DeleteById(u)
+func (service *userService) Delete(u entities.User) (err error) {
+	err = service.userRepository.Delete(u)
 	return
 }

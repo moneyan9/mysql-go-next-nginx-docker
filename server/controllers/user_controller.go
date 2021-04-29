@@ -11,10 +11,10 @@ import (
 )
 
 type UserController interface {
-	Show(echo.Context) error
-	Index(echo.Context) error
+	GetById(echo.Context) error
+	GetAll(echo.Context) error
 	Create(echo.Context) error
-	Save(echo.Context) error
+	Update(echo.Context) error
 	Delete(echo.Context) error
 }
 
@@ -34,9 +34,9 @@ func NewUserController() UserController {
 	}
 }
 
-func (controller *userController) Show(c echo.Context) (err error) {
+func (controller *userController) GetById(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	user, err := controller.userService.UserById(id)
+	user, err := controller.userService.GetById(id)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
@@ -45,8 +45,8 @@ func (controller *userController) Show(c echo.Context) (err error) {
 	return
 }
 
-func (controller *userController) Index(c echo.Context) (err error) {
-	users, err := controller.userService.Users()
+func (controller *userController) GetAll(c echo.Context) (err error) {
+	users, err := controller.userService.GetAll()
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
@@ -58,7 +58,7 @@ func (controller *userController) Index(c echo.Context) (err error) {
 func (controller *userController) Create(c echo.Context) (err error) {
 	u := entities.User{}
 	c.Bind(&u)
-	user, err := controller.userService.Add(u)
+	user, err := controller.userService.Create(u)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
@@ -67,7 +67,7 @@ func (controller *userController) Create(c echo.Context) (err error) {
 	return
 }
 
-func (controller *userController) Save(c echo.Context) (err error) {
+func (controller *userController) Update(c echo.Context) (err error) {
 	u := entities.User{}
 	c.Bind(&u)
 	user, err := controller.userService.Update(u)
@@ -84,7 +84,7 @@ func (controller *userController) Delete(c echo.Context) (err error) {
 	user := entities.User{
 		ID: id,
 	}
-	err = controller.userService.DeleteById(user)
+	err = controller.userService.Delete(user)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
