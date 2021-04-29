@@ -22,10 +22,14 @@ type userController struct {
 	userService services.UserService
 }
 
-func NewUserController(sqlHandler database.SqlHandler) UserController {
+func NewUserController() UserController {
 	return &userController{
 		userService: services.NewUserService(
-			repositories.NewUserRepository(sqlHandler),
+			repositories.NewUserRepository(
+				database.NewSqlHandler(
+					database.GetDatabase(),
+				),
+			),
 		),
 	}
 }
