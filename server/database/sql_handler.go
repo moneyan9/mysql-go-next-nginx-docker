@@ -1,7 +1,6 @@
-package helpers
+package database
 
 import (
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -17,46 +16,41 @@ type SqlHandler interface {
 }
 
 type sqlHandler struct {
-	conn *gorm.DB
+	db *gorm.DB
 }
 
-func NewSqlHandler() SqlHandler {
-	dsn := "user:password@tcp(db:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
-	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		panic(err.Error)
-	}
-	return &sqlHandler{conn: conn}
+func NewSqlHandler(db *gorm.DB) SqlHandler {
+	return &sqlHandler{db: db}
 }
 
 func (handler *sqlHandler) Find(out interface{}, where ...interface{}) *gorm.DB {
-	return handler.conn.Find(out, where...)
+	return handler.db.Find(out, where...)
 }
 
 func (handler *sqlHandler) Exec(sql string, values ...interface{}) *gorm.DB {
-	return handler.conn.Exec(sql, values...)
+	return handler.db.Exec(sql, values...)
 }
 
 func (handler *sqlHandler) First(out interface{}, where ...interface{}) *gorm.DB {
-	return handler.conn.First(out, where...)
+	return handler.db.First(out, where...)
 }
 
 func (handler *sqlHandler) Raw(sql string, values ...interface{}) *gorm.DB {
-	return handler.conn.Raw(sql, values...)
+	return handler.db.Raw(sql, values...)
 }
 
 func (handler *sqlHandler) Create(value interface{}) *gorm.DB {
-	return handler.conn.Create(value)
+	return handler.db.Create(value)
 }
 
 func (handler *sqlHandler) Save(value interface{}) *gorm.DB {
-	return handler.conn.Save(value)
+	return handler.db.Save(value)
 }
 
 func (handler *sqlHandler) Delete(value interface{}) *gorm.DB {
-	return handler.conn.Delete(value)
+	return handler.db.Delete(value)
 }
 
 func (handler *sqlHandler) Where(query interface{}, args ...interface{}) *gorm.DB {
-	return handler.conn.Where(query, args...)
+	return handler.db.Where(query, args...)
 }

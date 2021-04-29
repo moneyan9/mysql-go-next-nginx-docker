@@ -1,16 +1,11 @@
 package configs
 
 import (
+	"server/database"
 	"server/entities"
-
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 func InitializeDatabase() {
-	dsn := "user:password@tcp(db:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-	}
-	db.Migrator().CreateTable(entities.User{})
+	migrator := database.GetDatabase().Migrator()
+	migrator.CreateTable(entities.User{})
 }

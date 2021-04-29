@@ -2,14 +2,16 @@ package configs
 
 import (
 	"server/controllers"
-	"server/helpers"
+	"server/database"
 
 	"github.com/labstack/echo/v4"
 )
 
 func InitializeRoots(e *echo.Echo) {
 
-	userController := controllers.NewUserController(helpers.NewSqlHandler())
+	db := database.GetDatabase()
+
+	userController := controllers.NewUserController(database.NewSqlHandler(db))
 	e.GET("/api/users", func(c echo.Context) error { return userController.Index(c) })
 	e.GET("/api/users/:id", func(c echo.Context) error { return userController.Show(c) })
 	e.POST("/api/users", func(c echo.Context) error { return userController.Create(c) })
