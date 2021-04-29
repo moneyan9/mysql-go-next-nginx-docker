@@ -1,4 +1,4 @@
-package configs
+package main
 
 import (
 	"server/controllers"

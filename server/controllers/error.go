@@ -1,11 +1,9 @@
 package controllers
 
 type Error struct {
-	Message string
+	message string
 }
 
 func NewError(err error) *Error {
-	return &Error{
-		Message: err.Error(),
-	}
+	return &Error{message: err.Error()}
 }
