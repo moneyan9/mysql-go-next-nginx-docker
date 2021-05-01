@@ -68,6 +68,7 @@ export const Layout = ({ children }: LayoutProps) => {
         }
         .content {
           width: 100%;
+          min-height: 100vh;
         }
         .header {
         }
