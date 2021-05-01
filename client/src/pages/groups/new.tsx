@@ -1,59 +1,38 @@
 import { Button, TextField } from '@material-ui/core'
 import axios from 'axios'
 import Router from 'next/router'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import type { User } from 'src/models/user'
-import useSWR from 'swr'
+import type { Group } from 'src/models/group'
 
 import formStyles from '../../styles/form.module.scss'
 
-const Edit = () => {
-  const router = useRouter()
-  const { id } = router.query
-  const { data } = useSWR(`http://localhost/api/users/${id}`, (url: string) => {
-    return axios(url).then((res) => {
-      return res.data as User
-    })
-  })
-
+const New = () => {
   const {
     register,
-    reset,
     formState: { errors },
     handleSubmit,
-  } = useForm({ defaultValues: data })
+  } = useForm()
   const [errorMessage, setErrorMessage] = useState('')
 
-  const { ref: idRef, ...idProps } = register('id')
   const { ref: nameRef, ...nameProps } = register('name', {
     required: 'Name is required',
   })
 
-  const updateUser = async (user: User) => {
+  const addGroup = async (group: Group) => {
     try {
-      user.id = Number.parseInt(id as string)
-      await axios.put(`http://localhost/api/users/${id}`, user)
-      Router.push('/users')
+      await axios.post('http://localhost/api/groups', group)
+      Router.push('/groups')
     } catch (error) {
       setErrorMessage(error.message)
     }
   }
 
-  useEffect(() => {
-    reset(data)
-  }, [reset, data])
-
-  useEffect
   return (
     <>
-      <h1>Edit User</h1>
+      <h1>Create Group</h1>
 
-      <form onSubmit={handleSubmit(updateUser)} className={formStyles.form}>
-        <div>
-          <TextField type="text" label="ID" inputRef={idRef} {...idProps} disabled />
-        </div>
+      <form onSubmit={handleSubmit(addGroup)} className={formStyles.form}>
         <div>
           <TextField
             type="text"
@@ -67,7 +46,7 @@ const Edit = () => {
 
         <div className={formStyles.submit}>
           <Button type="submit" variant="outlined">
-            Update
+            Create
           </Button>
         </div>
       </form>
@@ -82,4 +61,4 @@ const Edit = () => {
 }
 
 // eslint-disable-next-line import/no-default-export
-export default Edit
+export default New

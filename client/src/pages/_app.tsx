@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-
-import Layout from '../components/layout'
+import Layout from 'src/components/layout'
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (

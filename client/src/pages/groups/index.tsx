@@ -13,7 +13,7 @@ import { Delete, Edit, PersonAdd } from '@material-ui/icons'
 import axios from 'axios'
 import Link from 'next/link'
 import { useState } from 'react'
-import type { User } from 'src/models/user'
+import type { Group } from 'src/models/group'
 import useSWR from 'swr'
 
 import formStyles from '../../styles/form.module.scss'
@@ -21,15 +21,15 @@ import formStyles from '../../styles/form.module.scss'
 const Index = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
-  const { data, mutate } = useSWR('http://localhost/api/users', (url: string) => {
+  const { data, mutate } = useSWR('http://localhost/api/groups', (url: string) => {
     return axios(url).then((res) => {
-      return res.data as User[]
+      return res.data as Group[]
     })
   })
 
-  const deleteUser = async (id: number) => {
+  const deleteGroup = async (id: number) => {
     try {
-      await axios.delete(`http://localhost/api/users/${id}`)
+      await axios.delete(`http://localhost/api/groups/${id}`)
       mutate()
     } catch (error) {
       setErrorMessage(error.message)
@@ -37,12 +37,12 @@ const Index = () => {
   }
   return (
     <>
-      <h1>User List</h1>
+      <h1>Group List</h1>
 
-      <Link href="/users/new">
+      <Link href="/groups/new">
         <Button variant="outlined">
           <PersonAdd />
-          Create User
+          Create Group
         </Button>
       </Link>
 
@@ -57,15 +57,15 @@ const Index = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((user) => {
+            {data?.map((group) => {
               return (
-                <TableRow key={user.id}>
+                <TableRow key={group.id}>
                   <TableCell component="th" scope="row">
-                    {user.id}
+                    {group.id}
                   </TableCell>
-                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{group.name}</TableCell>
                   <TableCell>
-                    <Link href="/users/[id]" as={`/users/${user.id}`}>
+                    <Link href="/groups/[id]" as={`/groups/${group.id}`}>
                       <IconButton>
                         <Edit />
                       </IconButton>
@@ -75,7 +75,7 @@ const Index = () => {
                     <IconButton>
                       <Delete
                         onClick={() => {
-                          return deleteUser(user.id)
+                          return deleteGroup(group.id)
                         }}
                       />
                     </IconButton>

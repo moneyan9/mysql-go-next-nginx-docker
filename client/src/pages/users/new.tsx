@@ -1,11 +1,10 @@
 import { Button, TextField } from '@material-ui/core'
 import axios from 'axios'
-import type { User } from 'models/user'
 import Router from 'next/router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-
-import formStyles from '../../styles/form.module.scss'
+import type { User } from 'src/models/user'
+import formStyles from 'src/styles/form.module.scss'
 
 const New = () => {
   const {

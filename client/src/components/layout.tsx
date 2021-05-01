@@ -7,7 +7,6 @@ import { SidebarContext } from 'src/contexts/sidebarContext'
 import { Header } from './header'
 
 type LayoutProps = {
-  loading: boolean
   children: React.ReactNode
 }
 

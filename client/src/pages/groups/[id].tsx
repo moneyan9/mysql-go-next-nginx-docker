@@ -4,7 +4,7 @@ import Router from 'next/router'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import type { User } from 'src/models/user'
+import type { Group } from 'src/models/group'
 import useSWR from 'swr'
 
 import formStyles from '../../styles/form.module.scss'
@@ -12,9 +12,9 @@ import formStyles from '../../styles/form.module.scss'
 const Edit = () => {
   const router = useRouter()
   const { id } = router.query
-  const { data } = useSWR(`http://localhost/api/users/${id}`, (url: string) => {
+  const { data } = useSWR(`http://localhost/api/groups/${id}`, (url: string) => {
     return axios(url).then((res) => {
-      return res.data as User
+      return res.data as Group
     })
   })
 
@@ -31,11 +31,11 @@ const Edit = () => {
     required: 'Name is required',
   })
 
-  const updateUser = async (user: User) => {
+  const updateGroup = async (group: Group) => {
     try {
-      user.id = Number.parseInt(id as string)
-      await axios.put(`http://localhost/api/users/${id}`, user)
-      Router.push('/users')
+      group.id = Number.parseInt(id as string)
+      await axios.put(`http://localhost/api/groups/${id}`, group)
+      Router.push('/groups')
     } catch (error) {
       setErrorMessage(error.message)
     }
@@ -48,9 +48,9 @@ const Edit = () => {
   useEffect
   return (
     <>
-      <h1>Edit User</h1>
+      <h1>Edit Group</h1>
 
-      <form onSubmit={handleSubmit(updateUser)} className={formStyles.form}>
+      <form onSubmit={handleSubmit(updateGroup)} className={formStyles.form}>
         <div>
           <TextField type="text" label="ID" inputRef={idRef} {...idProps} disabled />
         </div>
