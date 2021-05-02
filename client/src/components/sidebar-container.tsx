@@ -14,7 +14,6 @@ export const SidebarContainer = () => {
         .fixed-container {
           position: static;
           padding: 0 0.8em;
-          height: 100%;
           transition-duration: 0.1s;
           transform: translateY(0vh);
         }

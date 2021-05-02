@@ -41,7 +41,6 @@ export const Sidebar = () => {
       <style jsx>{`
         .sidebar {
           width: 100%;
-          height: 100%;
         }
         .sidebar-header {
           width: 100%;

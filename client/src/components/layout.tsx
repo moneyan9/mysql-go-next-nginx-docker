@@ -60,7 +60,6 @@ export const Layout = ({ children }: LayoutProps) => {
         }
         .sidebar-fixed {
           min-width: 240px;
-          height: 100vh;
           background-color: #f7f6f3;
         }
         .sidebar-absolute {
