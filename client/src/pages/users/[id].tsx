@@ -43,7 +43,6 @@ const Edit = () => {
     }
   }, [reset, data])
 
-  useEffect
   return (
     <>
       <h1>Edit User</h1>
