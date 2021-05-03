@@ -12,18 +12,14 @@ import formStyles from '../../styles/form.module.scss'
 const Edit = () => {
   const router = useRouter()
   const { id } = router.query
-  const { data } = useSWR(`http://localhost/api/groups/${id}`, (url: string) => {
-    return axios(url).then((res) => {
-      return res.data as Group
-    })
-  })
+  const { data } = useSWR<Group>(`http://localhost/api/groups/${id}`)
 
   const {
     register,
     reset,
     formState: { errors },
     handleSubmit,
-  } = useForm({ defaultValues: data })
+  } = useForm()
   const [errorMessage, setErrorMessage] = useState('')
 
   const { ref: idRef, ...idProps } = register('id')
@@ -42,7 +38,9 @@ const Edit = () => {
   }
 
   useEffect(() => {
-    reset(data)
+    if (data) {
+      reset(data)
+    }
   }, [reset, data])
 
   useEffect
