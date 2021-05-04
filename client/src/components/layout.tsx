@@ -72,7 +72,7 @@ export const Layout = ({ children }: LayoutProps) => {
         .header {
         }
         .article {
-          max-width: 80%;
+          max-width: 64%;
           margin: 1.5rem auto;
         }
       `}</style>
