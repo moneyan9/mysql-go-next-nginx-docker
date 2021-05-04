@@ -72,12 +72,12 @@ const Index = () => {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <IconButton>
-                      <Delete
-                        onClick={() => {
-                          return deleteGroup(group.id)
-                        }}
-                      />
+                    <IconButton
+                      onClick={() => {
+                        return deleteGroup(group.id)
+                      }}
+                    >
+                      <Delete />
                     </IconButton>
                   </TableCell>
                 </TableRow>
